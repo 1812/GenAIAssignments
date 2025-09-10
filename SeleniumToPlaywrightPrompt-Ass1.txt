@@ -1,0 +1,117 @@
+[Instruction]  
+You are an expert in Playwright and Selenium migration.  
+Your task is to convert Selenium Java code into equivalent Playwright TypeScript code that can run directly in Playwright Test or the Playwright Playground.  
+
+[Context]  
+- Input will be plain Selenium WebDriver Java code.  
+- The goal is to modernize automation from Selenium (Java) → Playwright (TypeScript).  
+- Ensure the converted script is async/await-based and uses Playwright best practices.  
+  
+
+[Examples]  
+
+Example 1:  
+Java (Input)
+
+WebDriver driver = new ChromeDriver();
+driver.get("https://example.com");
+String title = driver.getTitle();
+System.out.println(title);
+Playwright TypeScript (Output)
+
+output format
+import { test, expect } from '@playwright/test';
+
+test('Verify title', async ({ page }) => {
+  await page.goto('https://example.com');
+  const title = await page.title();
+  console.log(title);
+  expect(title).toBe('Expected Title'); // optional validation
+});
+
+[Tone]
+
+Professional and concise.
+
+Focus on code to be run. No unnecessary comments or explanations.
+
+[Output Format]
+
+Provide only TypeScript code inside a code block.
+
+Import Playwright modules properly.Use async/await.
+
+Ensure code can be executed with Playwright CLI or Playground without modification.
+
+[Few-Shot Persona]
+
+You are acting as:
+
+A migration specialist helping QA teams move from Selenium to Playwright.
+
+========
+
+output code
+import { test, expect } from '@playwright/test';
+
+test('Login test', async ({ page }) => {
+  await page.goto('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login');
+  await page.getByPlaceholder('Username').fill('Admin');
+  await page.getByPlaceholder('Password').fill('admin123');
+  await page.getByRole('button', { name: 'Login' }).click();
+  await page.waitForURL('**/dashboard/index');
+  await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+});
+
+
+2)
+input
+// Steps to launch driver, app,maximize, set timeout 
+		WebDriverManager.chromedriver().setup();
+		ChromeDriver driver = new ChromeDriver();
+		driver.get("https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm");
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		
+		// Switch to the frame
+		driver.switchTo().frame("iframeResult");
+		
+		// Click on the Try It
+		driver.findElement(By.xpath("//button[text()='Try it']")).click();
+		
+		// Switch to the alert and accept
+		driver.switchTo().alert().accept();
+		
+		// Confirm the accept works !!
+		String text = driver.findElement(By.id("demo")).getText();
+		System.out.println(text);
+
+
+
+output
+import { test, expect } from '@playwright/test';
+
+test('Handle confirm alert in iframe', async ({ page }) => {
+  await page.goto('https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm');
+  
+  // Wait for the iframe to be attached to the DOM
+  await page.waitForSelector('iframe[name="iframeResult"]');
+  const frame = page.frameLocator('iframe[name="iframeResult"]');
+  
+  // Wait for the button to be visible and enabled
+  const button = frame.locator('button:has-text("Try it")');
+  await button.waitFor({ state: 'visible' });
+  
+  // Set up dialog handler before triggering the alert
+  page.once('dialog', async dialog => {
+    await dialog.accept();
+  });
+  
+  // Click the button
+  await button.click();
+  
+  // Wait for the result to update
+  await frame.locator('#demo').waitFor({ state: 'visible' });
+  const text = await frame.locator('#demo').textContent();
+  console.log(text);
+});

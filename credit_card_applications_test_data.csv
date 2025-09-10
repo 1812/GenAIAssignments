@@ -1,0 +1,16 @@
+ApplicantID,Name,Age,Income,CreditScore,CardType,ApplicationStatus,Remarks
+CC1001,John Smith,35,95000,780,Platinum,Approved,Strong financial profile
+CC1002,Emily Carter,16,0,650,Student,Rejected,Minimum age not met
+CC1003,Rajesh Kumar,28,25000,520,Secured,Pending,Requires manual underwriting review
+CC1004,Maria Lopez,42,70000,690,Gold,Flagged,Duplicate SSN detected
+CC1005,Ahmed Ali,30,120000,810,Business,Approved,"High income, excellent credit history"
+CC1006,Sophia Turner,24,20000,580,Student,Approved,Low income but qualifies for student benefits
+CC1007,Michael Brown,50,40000,600,Silver,Rejected,Insufficient credit score
+CC1008,Li Wei,33,75000,720,Gold,Approved,Stable financial record
+CC1009,Olivia Green,29,50000,560,Secured,Approved,Secured card approved with deposit
+CC1010,Daniel Johnson,38,110000,770,Platinum,Approved,Meets high net-worth requirements
+CC1011,Priya Sharma,22,15000,510,Student,Rejected,Low credit score and income
+CC1012,Robert Davis,45,90000,740,Business,Pending,Business income verification required
+CC1013,Anna Kowalski,40,65000,680,Silver,Approved,Approved for mid-tier card
+CC1014,James Wilson,60,30000,550,Secured,Flagged,"High-risk applicant, manual review required"
+CC1015,Isabella Rossi,27,85000,790,Gold,Approved,Strong financial profile

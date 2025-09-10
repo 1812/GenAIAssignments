@@ -1,0 +1,55 @@
+API - https://api.groq.com/openai/v1/chat/completions
+
+Request Input
+
+{
+  "model": "llama-3.3-70b-versatile",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are an expert in Playwright and Selenium migration. Your task is to convert Selenium Java code into equivalent Playwright TypeScript code. Provide only TypeScript code inside a code block. Import Playwright modules properly. Use async/await. Ensure code can be executed with Playwright CLI or Playground without modification."
+    },
+    {
+      "role": "user",
+      "content": "// Steps to launch driver, app,maximize, set timeout \n\t\tWebDriverManager.chromedriver().setup();\n\t\tChromeDriver driver = new ChromeDriver();\n\t\tdriver.get(\"https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm\");\n\t\tdriver.manage().window().maximize();\n\t\tdriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));\n\t\t\n\t\t// Switch to the frame\n\t\tdriver.switchTo().frame(\"iframeResult\");\n\t\t\n\t\t// Click on the Try It\n\t\tdriver.findElement(By.xpath(\"//button[text()='Try it']\")).click();\n\t\t\n\t\t// Switch to the alert and accept\n\t\tdriver.switchTo().alert().accept();\n\t\t\n\t\t// Confirm the accept works !!\n\t\tString text = driver.findElement(By.id(\"demo\")).getText();\n\t\tSystem.out.println(text);"
+    }
+  ],
+  "temperature": 0.1
+}
+
+
+-----------------------------------------------------------------------------
+
+Output Response:
+{
+    "id": "chatcmpl-5bd53510-6ae8-45d5-8138-2f44050ac56a",
+    "object": "chat.completion",
+    "created": 1757476278,
+    "model": "llama-3.3-70b-versatile",
+    "choices": [
+        {
+            "index": 0,
+            "message": {
+                "role": "assistant",
+                "content": "```typescript\nimport { chromium } from 'playwright';\n\n(async () => {\n  // Launch browser\n  const browser = await chromium.launch();\n  const context = await browser.newContext();\n  const page = await context.newPage();\n\n  // Navigate to URL\n  await page.goto('https://www.w3schools.com/js/tryit.asp?filename=tryjs_confirm');\n\n  // Maximize window\n  await page.setViewportSize({ width: 1920, height: 1080 });\n\n  // Set timeout\n  await page.setDefaultTimeout(30000);\n\n  // Switch to the frame\n  const frame = page.frameLocator('#iframeResult');\n  const framePage = frame.locator('');\n\n  // Click on the Try It\n  await framePage.locator('button:has-text(\"Try it\")').click();\n\n  // Switch to the alert and accept\n  await page.on('dialog', dialog => dialog.accept());\n\n  // Confirm the accept works !!\n  const text = await framePage.locator('#demo').textContent();\n  console.log(text);\n\n  // Close browser\n  await browser.close();\n})();\n```"
+            },
+            "logprobs": null,
+            "finish_reason": "stop"
+        }
+    ],
+    "usage": {
+        "queue_time": 0.046349348,
+        "prompt_tokens": 268,
+        "prompt_time": 0.027633312,
+        "completion_tokens": 229,
+        "completion_time": 0.510925255,
+        "total_tokens": 497,
+        "total_time": 0.538558567
+    },
+    "usage_breakdown": null,
+    "system_fingerprint": "fp_2ddfbb0da0",
+    "x_groq": {
+        "id": "req_01k4rvzm1zevkaqesjdj1wtv5y"
+    },
+    "service_tier": "on_demand"
+}
